@@ -2,6 +2,7 @@
 #include<ctype.h>
 #include <stdlib.h>
 #include<string.h>
+
 struct patient{
     char serial_number[20];
     char name[20];
@@ -19,7 +20,21 @@ struct doctor
     char contactinfo[20];
     char visit_fee[20];
 };
-
+int split(char *str,char arr[][40]){
+    //strtok is used to split the string into tokens based on the delimiter
+    //in this case the delimiter is "-"
+    //token takes the string each time it is called and then it changes to next string
+    //at the end it returns the value size of the array
+    char *token;
+    token = strtok(str, "-");
+    int i=0;
+    while(token != NULL){
+        strcpy(arr[i],token);
+        token = strtok(NULL, "-");
+        i++;
+    }
+    return i;
+}
 void remove_newline(char *str) {
     str[strcspn(str, "\n")] = '\0'; // Remove trailing newline if present
 }
@@ -107,7 +122,14 @@ int verifyadmin(FILE *passkeytxt){
 
 }
 int main(){
+       char arr[20][40];
+        char input[] = "hello-My name Samsil Arefeen-How are you-so u are working-right"; 
+       int length=split(input,arr);
+         for(int i=0;i<length;i++){
+            printf("%s\n",arr[i]);
+         }
         FILE *adminpass=fopen("admin passkey.txt","r");
+       // FILE 
         printf("Welcome to VitalPro Hospital yoyoyo\n");
         printf("Are you Admin or Customer ? Press a if you are admin and press c if you are Customer");
         char custmer_or_admin;
