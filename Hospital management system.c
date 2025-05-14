@@ -123,6 +123,8 @@ int verifyadmin(FILE *passkeytxt){
 }
 int main(){
        char arr[20][40];
+       char patients[100][7][40];
+       char doctors[100][5][40];
         char input[] = "hello-My name Samsil Arefeen-How are you-so u are working-right"; 
        int length=split(input,arr);
          for(int i=0;i<length;i++){
@@ -133,6 +135,7 @@ int main(){
         printf("Welcome to VitalPro Hospital yoyoyo\n");
         printf("Are you Admin or Customer ? Press a if you are admin and press c if you are Customer");
         char custmer_or_admin;
+        char option;
         scanf(" %c",&custmer_or_admin);
         getchar();
         custmer_or_admin=tolower(custmer_or_admin);
@@ -140,6 +143,42 @@ int main(){
         {
              if(verifyadmin(adminpass)){
                //something to do with admin
+               printf("What do you want to do?\n");
+               printf("Press p for if related patient info\n");
+               scanf(" %c",&option);
+               if(option=='p'){
+                //something to do with patient
+                FILE *patienttxt=fopen("patientinfo.txt","r");
+
+                printf("Here are serveral options for you\n");
+                printf("Press 1 to add a new patient\n");
+                printf("Press 2 to view all patients\n");
+                printf("Press 3 to search for a patient\n");
+                printf("Press 4 to update a patient\n");
+                printf("Press 5 to delete a patient\n");
+                printf("Press 6 to exit\n");
+                scanf(" %c",&option);
+                if(option=='1'){
+                    //add a new patient
+                    if(patienttxt==NULL){
+                        patienttxt=fopen("patientinfo.txt","w");
+                    }
+                    char total_string [200];
+                    int count=0;
+                    while(fgets(total_string, sizeof(total_string), patienttxt) != NULL){
+                        remove_newline(total_string);
+                        split(total_string, patients[count]);
+                        count++;
+
+                    }
+                    for(int i=0;i<count;i++){
+                        printf("%s-%s-%s-%s-%s-%s-%s\n", patients[i][0], patients[i][1], patients[i][2], patients[i][3], patients[i][4], patients[i][5], patients[i][6]);
+                    }
+                    printf("%d\n",count);
+                    
+                }
+               }
+
              }
              else{
                 exit(0);
