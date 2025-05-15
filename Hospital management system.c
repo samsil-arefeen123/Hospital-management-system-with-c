@@ -2,7 +2,8 @@
 #include<ctype.h>
 #include <stdlib.h>
 #include<string.h>
-
+char *patient_print_string[7]={"","name","cabin room","doctor","disease","drug name","recovery time"};
+char *doctor_print_string[6]={"","name","expertise","checking day","contact info","visit fee"};
 struct patient{
     char serial_number[20];
     char name[20];
@@ -173,7 +174,8 @@ int add_any_specific_index(char arr[][7][40],int index,int content_size){
         //it returns the count of the patients/doctors but if if the file is not found it returns -1
         //printf("%s\n",arr[*total_size][i]);
         if(content_size==7){
-        switch(i){
+            printf("Enter the %s of the patient\n",patient_print_string[i]);
+        /*switch(i){
             case 1:
                 printf("Enter the name of the patient\n");
                 
@@ -193,10 +195,11 @@ int add_any_specific_index(char arr[][7][40],int index,int content_size){
             case 6:
                 printf("Enter the recovery time of the patient\n");
                 break;
-        }
+        }*/
     }
         else if(content_size==6){
-            switch(i){
+            printf("Enter the %s of the Doctor\n",doctor_print_string[i]);
+           /* switch(i){
                 case 1:
                     printf("Enter the name of the doctor\n");
                     break;
@@ -212,7 +215,7 @@ int add_any_specific_index(char arr[][7][40],int index,int content_size){
                 case 5:
                     printf("Enter the visit fee of the doctor\n");
                     break;
-         }
+         }*/
     }
         fgets(str, sizeof(str),stdin);
         remove_newline(str);
