@@ -480,8 +480,9 @@ int main(){
                //something to do with admin
                printf("What do you want to do?\n");
                printf("Press p for if related patient info\n");
+               printf("Press d for if related doctor info\n");
                scanf(" %c",&option);
-               if(option=='p'){
+               if(option=='p'){  
                 //something to do with patient
                 FILE *patienttxt;
                 char *patient_filename="patientinfo.txt";
@@ -578,11 +579,98 @@ int main(){
                     //search_patient_by_serialnumber(patients,serial_number);
                 }
                }
+               else if (option=='d'){
+                //something to do with doctor
+                FILE *doctortxt;
+                char *doctor_filename="doctorinfo.txt";
+                printf("Here are serveral options for you\n");
+                printf("Press 1 to add a new doctor\n");
+                printf("Press 2 to view all doctors\n");
+                printf("Press 3 to search for a doctor\n");
+                printf("Press 4 to update a doctor\n");
+                printf("Press 5 to delete a doctor\n");
+                printf("Press 6 to exit\n");
+                int doctor_size=read_file_with_initializing(doctortxt,doctor_filename,doctors);
+                
+                scanf(" %c",&option);
+                if(option=='1'){
+                    //add a new doctor
+                    clear_input_buffer();
+                    append_file_update_array(doctors,&doctor_size,doctor_filename);
+                    print_doctor(doctors,doctor_size);
+                    copy_write_file(doctortxt,doctor_filename,doctors,doctor_size);
+                    
+                }
+                if(option=='2'){
+                    //view all doctors
+                    print_doctor(doctors,doctor_size);
+                }
+                if(option=='3'||option=='4'||option=='5'){
+                    //search for a doctor
+                    if(option=='4'){ 
+                        printf("To update a doctor you need to search for the doctor first\n");
+                    }
+                    char new_option;
+                    char printoption[3][10]={"search","update","delete"};
+                    
+                    printf("How do you want to %s\n",printoption[option-'3']);
+                    printf("Press 1 to %s by serial number\n",printoption[option-'3']);
+                    printf("Press 2 to %s by name\n",printoption[option-'3']);
+                    scanf(" %c",&new_option);
+                    if(new_option=='1'){
+                        //search by serial number
+                        printf("Enter the serial number of the doctor\n");
+                        int serial_number;
+                        scanf("%d",&serial_number);
+                      // remove_newline(serial_number);
+                       print_single_doctor(doctors,serial_number-1);
+                       if(option=='4'){
+                        update_array_content(doctors,serial_number-1,6);
+                        print_doctor(doctors,doctor_size);
+                        copy_write_file(doctortxt,doctor_filename,doctors,doctor_size);
+                       }  
+                          if(option=='5'){
+                            delete_specific_index_array(doctors,serial_number-1,&doctor_size,6);
+                            print_doctor(doctors,doctor_size);
+                            copy_write_file(doctortxt,doctor_filename,doctors,doctor_size);
+                             }
 
-             }
+                }
+                    if(new_option=='2'){
+                        //search by name
+                        printf("Enter the name or sub name of the doctor\n");
+                        char name[40];
+                        clear_input_buffer();
+                        fgets(name, sizeof(name),stdin);
+                        remove_newline(name);
+                        search_doctor_by_name(doctors,name,doctor_size);
+                    
+                    if(option=='4'||option=='5'){
+                        //update a doctor 
+                        printf("Enter the serial number of the doctor\n");
+                        int serial_number;
+                        scanf("%d",&serial_number);
+                        if(option=='4'){
+
+                        update_array_content(doctors,serial_number-1,6);
+                        print_doctor(doctors,doctor_size);
+                        copy_write_file(doctortxt,doctor_filename,doctors,doctor_size);
+                    }
+                        if(option=='5'){
+                            delete_specific_index_array(doctors,serial_number-1,&doctor_size,6);
+                            print_doctor(doctors,doctor_size);
+                            copy_write_file(doctortxt,doctor_filename,doctors,doctor_size);
+                        }
+                    }
+                    }
+                    //search_patient_by_serialnumber(patients,serial_number);
+                
+            }
             /* else{
                 exit(0);
              }*/
         }
+}
+}
 }
 
