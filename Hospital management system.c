@@ -22,6 +22,17 @@ struct doctor
     char contactinfo[20];
     char visit_fee[20];
 };
+char *str_to_lower(char str[]){
+    //this function is used to convert the string to lower case
+    //it returns the lower case string
+    int length=strlen(str);
+     char *newstr=(char*)malloc((length+1)*sizeof(char));
+    for(int i=0;i<strlen(str);i++){
+        newstr[i]=tolower(str[i]);
+    }
+    newstr[length]='\0';
+    return newstr;
+}
 void clear_input_buffer() {
     int c;
     while ((c = getchar()) != '\n' && c != EOF) {} // Clear the input buffer
@@ -29,11 +40,49 @@ void clear_input_buffer() {
 void remove_newline(char *str) {
     str[strcspn(str, "\n")] = '\0'; // Remove trailing newline if present
 }
+void print_single_patient(char patients[][7][40],int index){
+    printf("Serial number: %s\n", patients[index][0]);
+    printf("Name: %s\n", patients[index][1]);
+    printf("Cabin room: %s\n", patients[index][2]);
+    printf("Doctor: %s\n", patients[index][3]);
+    printf("Disease: %s\n", patients[index][4]);
+    printf("Drug name: %s\n", patients[index][5]);
+    printf("Recovery time: %s\n", patients[index][6]);
+}
+void print_single_doctor(char doctors[][7][40],int index){
+    printf("Serial number: %s\n", doctors[index][0]);
+    printf("Name: %s\n", doctors[index][1]);
+    printf("Expertise: %s\n", doctors[index][2]);
+    printf("Checking day: %s\n", doctors[index][3]);
+    printf("Contact info: %s\n", doctors[index][4]);
+    printf("Visit fee: %s\n", doctors[index][5]);
+}
 void print_patient(char patients[][7][40],int count){
-    for(int i=0;i<count;i++)
+    /*for(int i=0;i<count;i++)
     {
                         printf("%s-%s-%s-%s-%s-%s-%s\n", patients[i][0], patients[i][1], patients[i][2], patients[i][3], patients[i][4], patients[i][5], patients[i][6]);
+    }*/
+    for (int i=0;i<count;i++){
+        print_single_patient(patients,i);
+         printf("\n");
+       /* printf("Serial number: %s\n", patients[i][0]);
+        printf("Name: %s\n", patients[i][1]);
+        printf("Cabin room: %s\n", patients[i][2]);
+        printf("Doctor: %s\n", patients[i][3]);
+        printf("Disease: %s\n", patients[i][4]);
+        printf("Drug name: %s\n", patients[i][5]);
+        printf("Recovery time: %s\n", patients[i][6]);*/
+       
     }
+
+}
+void print_doctor(char doctors[][7][40],int count){
+    for (int i=0;i<count;i++){
+        print_single_doctor(doctors,i);
+         printf("\n");
+
+    }
+
 }
 int split(char *str,char arr[][40]){
     //strtok is used to split the string into tokens based on the delimiter
@@ -166,6 +215,85 @@ int get_total_contentby_filename(char *filename){
     }
     return total_content;
 }
+/*int search_patient_by_serialnumber(char arr[][7][40],char serial_number){
+    printf("This is the patient you are looking for\n");
+    print_single_patient(arr,serial_number-1);
+}*/
+int search_patient_by_name(char arr[][7][40],char *name,int total_size){
+    int store_serial[100];
+    int count=0;
+    printf("Possible patients");
+    for(int i=0;i<total_size;i++){
+        if(strstr(str_to_lower(arr[i][1]),str_to_lower(name))){
+            store_serial[count]=i+1;
+            count++;
+            print_single_patient(arr,i);
+            printf("\n");
+        }
+    }
+   // printf("Patient not found\n");
+    return 0;
+}
+int search_doctor_by_name(char arr[][7][40],char *name,int total_size){
+    int store_serial[100];
+    int count=0;
+    printf("Possible doctors");
+    for(int i=0;i<total_size;i++){
+        if(strstr(str_to_lower(arr[i][1]),str_to_lower(name))){
+            store_serial[count]=i+1;
+            count++;
+            print_single_doctor(arr,i);
+            printf("\n");
+        }
+    }
+   // printf("Doctor not found\n");
+    return 0;
+}
+int update_array_content(char arr[][7][40],int index,int content_size){
+     printf("What do you want to update?\n");
+     int option;
+     if(content_size==7){
+        printf("Press 1 to update the name\n");
+        printf("Press 2 to update the cabin room\n");
+        printf("Press 3 to update the doctor\n");
+        printf("Press 4 to update the disease\n");
+        printf("Press 5 to update the drug name\n");
+        printf("Press 6 to update the recovery time\n");
+        scanf("%d",&option);
+        if(!(option>=1&&option<=6)){
+            printf("Invalid option\n");
+            return -1;
+        }
+        getchar();
+            printf("Enter the new %s of the patient\n",patient_print_string[option]);
+            fgets(arr[index][option], sizeof(arr[index][option]),stdin);
+            remove_newline(arr[index][option]);
+        }
+        
+     else if(content_size==6){
+        printf("Press 1 to update the name\n");
+        printf("Press 2 to update the expertise\n");
+        printf("Press 3 to update the checking day\n");
+        printf("Press 4 to update the contact info\n");
+        printf("Press 5 to update the visit fee\n");
+        scanf("%d",&option);
+        if(!(option>=1&&option<=5)){
+            printf("Invalid option\n");
+            return -1;
+        }
+            
+        getchar();
+            printf("Enter the new %s of the doctor\n",doctor_print_string[option]);
+            fgets(arr[index][option], sizeof(arr[index][option]),stdin);
+            remove_newline(arr[index][option]);
+        }
+        else{
+            printf("Invalid option\n");
+            return -1;
+        }
+     }
+    
+
 int add_any_specific_index(char arr[][7][40],int index,int content_size){
      char str[40];
     sprintf(arr[index][0],"%d",index+1);
@@ -315,7 +443,18 @@ int copy_write_file(FILE *fp,char *filename,char arr[][7][40],int total_size){
     fclose(fp);
     return 1;
 }
+int delete_specific_index_array(char arr[][7][40],int index,int *total_size,int content_size){
+    //this function is used to delete a specific index from the array
+    for(int i=index;i<*total_size-1;i++){
+        for(int j=1;j<content_size;j++){
+            strcpy(arr[i][j],arr[i+1][j]);
+        }
+    }
+    *total_size=*total_size-1;
+    return 1;
+}
 int main(){
+       
        char arr[20][40];
        int count=0;//this is the count of the patients
        char patients[100][7][40];
@@ -355,6 +494,7 @@ int main(){
                 printf("Press 5 to delete a patient\n");
                 printf("Press 6 to exit\n");
                 int patient_size=read_file_with_initializing(patienttxt,patient_filename,patients);
+
                 scanf(" %c",&option);
                 if(option=='1'){
                     //add a new patient
@@ -374,11 +514,75 @@ int main(){
                     copy_write_file(patienttxt,patient_filename,patients,patient_size);
                     
                 }
+                if(option=='2'){
+                    //view all patients
+                    print_patient(patients,patient_size);
+                }
+                if(option=='3'||option=='4'||option=='5'){
+                    //search for a patient
+                    if(option=='4'){ 
+                        printf("To update a patient you need to search for the patient first\n");
+                    }
+                    char new_option;
+                    char printoption[3][10]={"search","update","delete"};
+                    
+                    printf("How do you want to %s\n",printoption[option-'3']);
+                    printf("Press 1 to %s by serial number\n",printoption[option-'3']);
+                    printf("Press 2 to %s by name\n",printoption[option-'3']);
+                    scanf(" %c",&new_option);
+                    if(new_option=='1'){
+                        //search by serial number
+                        printf("Enter the serial number of the patient\n");
+                        int serial_number;
+                        scanf("%d",&serial_number);
+                      // remove_newline(serial_number);
+                       print_single_patient(patients,serial_number-1);
+                       if(option=='4'){
+                        update_array_content(patients,serial_number-1,7);
+                        print_patient(patients,patient_size);
+                        copy_write_file(patienttxt,patient_filename,patients,patient_size);
+                       }  
+                          if(option=='5'){
+                            delete_specific_index_array(patients,serial_number-1,&patient_size,7);
+                            print_patient(patients,patient_size);
+                            copy_write_file(patienttxt,patient_filename,patients,patient_size);
+                          }
+                    }
+                    if(new_option=='2'){
+                        //search by name
+                        printf("Enter the name or sub name of the patient\n");
+                        char name[40];
+                        clear_input_buffer();
+                        fgets(name, sizeof(name),stdin);
+                        remove_newline(name);
+                        search_patient_by_name(patients,name,patient_size);
+                    
+                    if(option=='4'||option=='5'){
+                        //update a patient 
+                        printf("Enter the serial number of the patient\n");
+                        int serial_number;
+                        scanf("%d",&serial_number);
+                        if(option=='4'){
+
+                        update_array_content(patients,serial_number-1,7);
+                        print_patient(patients,patient_size);
+                        copy_write_file(patienttxt,patient_filename,patients,patient_size);
+                    }
+                        if(option=='5'){
+                            delete_specific_index_array(patients,serial_number-1,&patient_size,7);
+                            print_patient(patients,patient_size);
+                            copy_write_file(patienttxt,patient_filename,patients,patient_size);
+                        }
+                    }
+                    }
+                    //search_patient_by_serialnumber(patients,serial_number);
+                }
                }
 
              }
-             else{
+            /* else{
                 exit(0);
-             }
+             }*/
         }
-    }
+}
+
