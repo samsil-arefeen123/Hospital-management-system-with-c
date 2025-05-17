@@ -4,6 +4,19 @@
 #include<string.h>
 char *patient_print_string[7]={"","name","cabin room","doctor","disease","drug name","recovery time"};
 char *doctor_print_string[6]={"","name","expertise","checking day","contact info","visit fee"};
+char *hospital_print_string[10]={"hospital name","hospital address","hospital owner","max patient capacity","total doctor","total employee","hospital phone number","hospital email","hospital website","hospital year of establishment"};                    
+struct hospitalinfo{
+    char hospital_name[40];
+    char hospital_address[40];
+    char hospital_owner[40];
+    char max_patient_capacity[40];
+    char total_doctor[40];
+    char total_employee[40]; 
+    char hospital_phone_number[40];
+    char hospital_email[40];
+    char hospital_website[40];
+    char hospital_year_of_establishment[40];
+};
 struct patient{
     char serial_number[20];
     char name[20];
@@ -40,7 +53,7 @@ void clear_input_buffer() {
 void remove_newline(char *str) {
     str[strcspn(str, "\n")] = '\0'; // Remove trailing newline if present
 }
-void print_single_patient(char patients[][7][40],int index){
+void print_single_patient(char patients[][10][40],int index){
     printf("Serial number: %s\n", patients[index][0]);
     printf("Name: %s\n", patients[index][1]);
     printf("Cabin room: %s\n", patients[index][2]);
@@ -49,7 +62,7 @@ void print_single_patient(char patients[][7][40],int index){
     printf("Drug name: %s\n", patients[index][5]);
     printf("Recovery time: %s\n", patients[index][6]);
 }
-void print_single_doctor(char doctors[][7][40],int index){
+void print_single_doctor(char doctors[][10][40],int index){
     printf("Serial number: %s\n", doctors[index][0]);
     printf("Name: %s\n", doctors[index][1]);
     printf("Expertise: %s\n", doctors[index][2]);
@@ -57,14 +70,26 @@ void print_single_doctor(char doctors[][7][40],int index){
     printf("Contact info: %s\n", doctors[index][4]);
     printf("Visit fee: %s\n", doctors[index][5]);
 }
-void print_single_appointment(char appoint[][7][40],int index){
+void print_single_appointment(char appoint[][10][40],int index){
     printf("Serial number: %s\n", appoint[index][0]);
     printf("Patient name: %s\n", appoint[index][1]);
     printf("Doctor name: %s\n", appoint[index][2]);
     printf("Cabin room: %s\n", appoint[index][3]);
     printf("Appointment day: %s\n", appoint[index][4]);
 }
-void print_patient(char patients[][7][40],int count){
+void print_hospital_info(char hospital[][10][40]){
+    printf("Hospital name: %s\n", hospital[0][0]);
+    printf("Hospital address: %s\n", hospital[0][1]);
+    printf("Hospital owner: %s\n", hospital[0][2]);
+    printf("Max patient capacity: %s\n", hospital[0][3]);
+    printf("Total doctor: %s\n", hospital[0][4]);
+    printf("Total employee: %s\n", hospital[0][5]);
+    printf("Hospital phone number: %s\n", hospital[0][6]);
+    printf("Hospital email: %s\n", hospital[0][7]);
+    printf("Hospital website: %s\n", hospital[0][8]);
+    printf("Hospital year of establishment: %s\n", hospital[0][9]);
+}
+void print_patient(char patients[][10][40],int count){
     /*for(int i=0;i<count;i++)
     {
                         printf("%s-%s-%s-%s-%s-%s-%s\n", patients[i][0], patients[i][1], patients[i][2], patients[i][3], patients[i][4], patients[i][5], patients[i][6]);
@@ -83,7 +108,7 @@ void print_patient(char patients[][7][40],int count){
     }
 
 }
-void print_doctor(char doctors[][7][40],int count){
+void print_doctor(char doctors[][10][40],int count){
     for (int i=0;i<count;i++){
         print_single_doctor(doctors,i);
          printf("\n");
@@ -91,7 +116,7 @@ void print_doctor(char doctors[][7][40],int count){
     }
 
 }
-void print_appointment(char appoint[][7][40],int count){
+void print_appointment(char appoint[][10][40],int count){
     for (int i=0;i<count;i++){
         print_single_appointment(appoint,i);
          printf("\n");
@@ -197,7 +222,7 @@ int verifyadmin(FILE *passkeytxt){
     //Identify if the Identity of the admin is correct or not
 
 }
-int read_file_with_initializing(FILE *fp,char *filename,char arr[][7][40]){
+int read_file_with_initializing(FILE *fp,char *filename,char arr[][10][40]){
     char str[200];
     //this function is used to read the file and initialize the array with the values from the file
     //it returns the count of the patients/doctors but if if the file is not found it returns 0 too since theres no info about the patients anyways
@@ -227,6 +252,10 @@ int get_total_contentby_filename(char *filename){
     else if(strcmp(filename,"appointment_info.txt")==0){
         total_content=5;
     }
+    else if(strcmp(filename,"hospitalinfo.txt")==0){
+        total_content=10;
+    }
+    
     
     else{
         printf("Invalid file name\n");
@@ -234,11 +263,11 @@ int get_total_contentby_filename(char *filename){
     }
     return total_content;
 }
-/*int search_patient_by_serialnumber(char arr[][7][40],char serial_number){
+/*int search_patient_by_serialnumber(char arr[][10][40],char serial_number){
     printf("This is the patient you are looking for\n");
     print_single_patient(arr,serial_number-1);
 }*/
-int search_patient_by_name(char arr[][7][40],char *name,int total_size){
+int search_patient_by_name(char arr[][10][40],char *name,int total_size){
     int store_serial[100];
     int count=0;
     printf("Possible patients");
@@ -253,7 +282,7 @@ int search_patient_by_name(char arr[][7][40],char *name,int total_size){
    // printf("Patient not found\n");
     return 0;
 }
-int search_doctor_by_name(char arr[][7][40],char *name,int total_size){
+int search_doctor_by_name(char arr[][10][40],char *name,int total_size){
     int store_serial[100];
     int count=0;
     printf("Possible doctors");
@@ -268,7 +297,7 @@ int search_doctor_by_name(char arr[][7][40],char *name,int total_size){
    // printf("Doctor not found\n");
     return 0;
 }
-int search_appointment_by_name(char arr[][7][40],char *name,int total_size){
+int search_appointment_by_name(char arr[][10][40],char *name,int total_size){
     int store_serial[100];
     int count=0;
     printf("Possible appointments");
@@ -283,7 +312,7 @@ int search_appointment_by_name(char arr[][7][40],char *name,int total_size){
    // printf("Doctor not found\n");
     return count;
 }
-int update_array_content(char arr[][7][40],int index,int content_size){
+int update_array_content(char arr[][10][40],int index,int content_size){
      printf("What do you want to update?\n");
      int option;
      if(content_size==7){
@@ -321,6 +350,29 @@ int update_array_content(char arr[][7][40],int index,int content_size){
             fgets(arr[index][option], sizeof(arr[index][option]),stdin);
             remove_newline(arr[index][option]);
         }
+        else if(content_size==10){
+            printf("Press 1 to update the hospital name\n");
+            printf("Press 2 to update the hospital address\n");
+            printf("Press 3 to update the hospital owner\n");
+            printf("Press 4 to update the max patient capacity\n");
+            printf("Press 5 to update the total doctor\n");
+            printf("Press 6 to update the total employee\n");
+            printf("Press 7 to update the hospital phone number\n");
+            printf("Press 8 to update the hospital email\n");
+            printf("Press 9 to update the hospital website\n");
+            printf("Press 10 to update the hospital year of establishment\n");
+            scanf("%d",&option);
+            if(!(option>=1&&option<=10)){
+                printf("Invalid option\n");
+                return -1;
+            }
+            getchar();
+            printf("Enter the new %s of the hospital\n",hospital_print_string[option-1]);
+            fgets(arr[index][option-1], sizeof(arr[index][option-1]),stdin);
+            remove_newline(arr[index][option-1]);
+
+        
+        }
         else{
             printf("Invalid option\n");
             return -1;
@@ -328,15 +380,17 @@ int update_array_content(char arr[][7][40],int index,int content_size){
      }
     
 
-int add_any_specific_index(char arr[][7][40],int index,int content_size){
+int add_any_specific_index(char arr[][10][40],int index,int content_size){
      char str[40];
     sprintf(arr[index][0],"%d",index+1);
+    int j;
     for (int i=1;i<content_size;i++){
+        j=i;
         //this function is used to append the file with the array
         //it returns the count of the patients/doctors but if if the file is not found it returns -1
         //printf("%s\n",arr[*total_size][i]);
         if(content_size==7){
-            printf("Enter the %s of the patient\n",patient_print_string[i]);
+            printf("Enter the %s of the patient\n",patient_print_string[j]);
         /*switch(i){
             case 1:
                 printf("Enter the name of the patient\n");
@@ -360,7 +414,7 @@ int add_any_specific_index(char arr[][7][40],int index,int content_size){
         }*/
     }
         else if(content_size==6){
-            printf("Enter the %s of the Doctor\n",doctor_print_string[i]);
+            printf("Enter the %s of the Doctor\n",doctor_print_string[j]);
            /* switch(i){
                 case 1:
                     printf("Enter the name of the doctor\n");
@@ -379,13 +433,23 @@ int add_any_specific_index(char arr[][7][40],int index,int content_size){
                     break;
          }*/
     }
+        else if(content_size==10){
+            j=i-1;
+            printf("Enter the %s of the hospital\n",hospital_print_string[j]);
+        }
         fgets(str, sizeof(str),stdin);
         remove_newline(str);
-        strcpy(arr[index][i],str);
+        strcpy(arr[index][j],str);
+    }
+    if(content_size==10){
+        printf("Enter the hospital year of establishment\n");
+        fgets(str, sizeof(str),stdin);
+        remove_newline(str);
+        strcpy(arr[index][9],str);
     }
 
 }
-int append_file_update_array(char arr[][7][40],int *total_size,char *filename){
+int append_file_update_array(char arr[][10][40],int *total_size,char *filename){
     int content_size=get_total_contentby_filename(filename);
     add_any_specific_index(arr,*total_size,content_size);
     *total_size=*total_size+1;
@@ -444,13 +508,13 @@ int append_file_update_array(char arr[][7][40],int *total_size,char *filename){
 */
 //This function is used to update mainly at the end of the array
 }
-int update_file_add_newinfo_onindex_array(char arr[][7][40],int *total_size){
+int update_file_add_newinfo_onindex_array(char arr[][10][40],int *total_size){
     //This function is used to add 
 }
-int update_file_change_info_onindex_array(char arr[][7][40],int *total_size){
+int update_file_change_info_onindex_array(char arr[][10][40],int *total_size){
     //This function is used to change the info of the patient
 }
-int copy_write_file(FILE *fp,char *filename,char arr[][7][40],int total_size){
+int copy_write_file(FILE *fp,char *filename,char arr[][10][40],int total_size){
     int total_content;
     total_content=get_total_contentby_filename(filename);
 
@@ -477,7 +541,7 @@ int copy_write_file(FILE *fp,char *filename,char arr[][7][40],int total_size){
     fclose(fp);
     return 1;
 }
-int delete_specific_index_array(char arr[][7][40],int index,int *total_size,int content_size){
+int delete_specific_index_array(char arr[][10][40],int index,int *total_size,int content_size){
     //this function is used to delete a specific index from the array
     for(int i=index;i<*total_size-1;i++){
         for(int j=1;j<content_size;j++){
@@ -487,7 +551,7 @@ int delete_specific_index_array(char arr[][7][40],int index,int *total_size,int 
     *total_size=*total_size-1;
     return 1;
 }
-int appoint_doctor_by_serialnumber(char doctorarr[][7][40],int doctor_serial_number,char appointarr[][7][40],int *appoint_size){
+int appoint_doctor_by_serialnumber(char doctorarr[][10][40],int doctor_serial_number,char appointarr[][10][40],int *appoint_size){
     char patient_name[40];
     printf("Enter the name of the patient\n");
     clear_input_buffer();
@@ -518,9 +582,10 @@ int main(){
        
        char arr[20][40];
        int count=0;//this is the count of the patients
-       char patients[100][7][40];
-       char doctors[100][7][40];
-       char appoint[100][7][40];
+       char patients[100][10][40];
+       char doctors[100][10][40];
+       char appoint[100][10][40];
+       char hospital[1][10][40];
        char total_single_line_string[100];
         char input[] = "hello-My name Samsil Arefeen-How are you-so u are working-right"; 
        int length=split(input,arr,"-");
@@ -543,6 +608,7 @@ int main(){
                printf("What do you want to do?\n");
                printf("Press p for if related patient info\n");
                printf("Press d for if related doctor info\n");
+               printf("Press h for if related hospital info\n");
                scanf(" %c",&option);
                if(option=='p'){  
                 //something to do with patient
@@ -640,6 +706,7 @@ int main(){
                     }
                     //search_patient_by_serialnumber(patients,serial_number);
                 }
+                
                }
                else if (option=='d'){
                 //something to do with doctor
@@ -732,6 +799,39 @@ int main(){
                 exit(0);
              }*/
         }
+                else if (option=='h'){
+                //something to do with hospital
+                FILE *hospitaltxt;
+                char *hospital_filename="hospitalinfo.txt";
+                printf("Here are serveral options for you\n");
+                printf("Press 1 to view all hospital info\n");
+                printf("Press 2 to change all hospital info\n");
+                printf("Press 3 to update hospital info\n");
+                printf("Press 4 to exit\n");
+                int hospital_size=read_file_with_initializing(hospitaltxt,hospital_filename,hospital);
+                scanf(" %c",&option);
+                if(option=='1'){
+                    //view all hospital info
+                    if(hospital_size!=0){
+                        print_hospital_info(hospital);
+                    }
+                    else{
+                        printf("No hospital info found\n");
+                    }
+                }
+                if(option=='2'){
+                    //change all hospital info
+                     clear_input_buffer();
+                   add_any_specific_index(hospital,0,10);
+                   copy_write_file(hospitaltxt,hospital_filename,hospital,1);
+                    
+                }
+                if(option=='3'){
+                    
+                    update_array_content(hospital,0,10);
+                    print_hospital_info(hospital);
+                    copy_write_file(hospitaltxt,hospital_filename,hospital,1);
+                }
 }
 }
 else if(customer_or_admin=='c'){
@@ -843,6 +943,7 @@ else if(customer_or_admin=='c'){
 
 
     }
+}
     else{
         exit(0);
     }
