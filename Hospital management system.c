@@ -57,6 +57,13 @@ void print_single_doctor(char doctors[][7][40],int index){
     printf("Contact info: %s\n", doctors[index][4]);
     printf("Visit fee: %s\n", doctors[index][5]);
 }
+void print_single_appointment(char appoint[][7][40],int index){
+    printf("Serial number: %s\n", appoint[index][0]);
+    printf("Patient name: %s\n", appoint[index][1]);
+    printf("Doctor name: %s\n", appoint[index][2]);
+    printf("Cabin room: %s\n", appoint[index][3]);
+    printf("Appointment day: %s\n", appoint[index][4]);
+}
 void print_patient(char patients[][7][40],int count){
     /*for(int i=0;i<count;i++)
     {
@@ -84,17 +91,25 @@ void print_doctor(char doctors[][7][40],int count){
     }
 
 }
-int split(char *str,char arr[][40]){
+void print_appointment(char appoint[][7][40],int count){
+    for (int i=0;i<count;i++){
+        print_single_appointment(appoint,i);
+         printf("\n");
+
+    }
+
+}
+int split(char *str,char arr[][40],char *splitby){
     //strtok is used to split the string into tokens based on the delimiter
     //in this case the delimiter is "-"
     //token takes the string each time it is called and then it changes to next string
     //at the end it returns the value size of the array
     char *token;
-    token = strtok(str, "-");
+    token = strtok(str, splitby);
     int i=0;
     while(token != NULL){
         strcpy(arr[i],token);
-        token = strtok(NULL, "-");
+        token = strtok(NULL, splitby);
         i++;
     }
     return i;
@@ -194,7 +209,7 @@ int read_file_with_initializing(FILE *fp,char *filename,char arr[][7][40]){
     }
     while(fgets(str, sizeof(str), fp) != NULL){
                         remove_newline(str);
-                        split(str, arr[count]);
+                        split(str, arr[count],"-");
                         count++;
 
                     }
@@ -209,6 +224,10 @@ int get_total_contentby_filename(char *filename){
         //printf("This is the doctor file\n");
         total_content=6;
     }
+    else if(strcmp(filename,"appointment_info.txt")==0){
+        total_content=5;
+    }
+    
     else{
         printf("Invalid file name\n");
         return -1;
@@ -248,6 +267,21 @@ int search_doctor_by_name(char arr[][7][40],char *name,int total_size){
     }
    // printf("Doctor not found\n");
     return 0;
+}
+int search_appointment_by_name(char arr[][7][40],char *name,int total_size){
+    int store_serial[100];
+    int count=0;
+    printf("Possible appointments");
+    for(int i=0;i<total_size;i++){
+        if(strstr(str_to_lower(arr[i][1]),str_to_lower(name))){
+            store_serial[count]=i+1;
+            count++;
+            print_single_appointment(arr,i);
+            printf("\n");
+        }
+    }
+   // printf("Doctor not found\n");
+    return count;
 }
 int update_array_content(char arr[][7][40],int index,int content_size){
      printf("What do you want to update?\n");
@@ -453,15 +487,43 @@ int delete_specific_index_array(char arr[][7][40],int index,int *total_size,int 
     *total_size=*total_size-1;
     return 1;
 }
+int appoint_doctor_by_serialnumber(char doctorarr[][7][40],int doctor_serial_number,char appointarr[][7][40],int *appoint_size){
+    char patient_name[40];
+    printf("Enter the name of the patient\n");
+    clear_input_buffer();
+    fgets(patient_name, sizeof(patient_name),stdin);
+    remove_newline(patient_name);
+    sprintf(appointarr[*appoint_size][0],"%d",*appoint_size+1);
+    strcpy(appointarr[*appoint_size][1],patient_name);
+    strcpy(appointarr[*appoint_size][2],doctorarr[doctor_serial_number-1][1]);
+    strcpy(appointarr[*appoint_size][3],doctorarr[doctor_serial_number-1][2]);
+    printf("Which day do you want to appoint the doctor?\n");
+    char appoint_day[20][40];
+    int length=split(doctorarr[doctor_serial_number-1][3],appoint_day,",");
+    for(int i=0;i<length;i++){
+        printf("Press %d. for %s\n",i+1,appoint_day[i]);
+    }
+    int option;
+    scanf("%d",&option);
+    if(option<1||option>length){
+        printf("Invalid option\n");
+        return -1;
+    }
+    strcpy(appointarr[*appoint_size][4],appoint_day[option-1]);
+    *appoint_size=*appoint_size+1;
+    printf("You have successfully appointed the doctor\n");
+
+}
 int main(){
        
        char arr[20][40];
        int count=0;//this is the count of the patients
        char patients[100][7][40];
        char doctors[100][7][40];
+       char appoint[100][7][40];
        char total_single_line_string[100];
         char input[] = "hello-My name Samsil Arefeen-How are you-so u are working-right"; 
-       int length=split(input,arr);
+       int length=split(input,arr,"-");
          for(int i=0;i<length;i++){
             printf("%s\n",arr[i]);
          }
@@ -469,12 +531,12 @@ int main(){
        // FILE 
         printf("Welcome to VitalPro Hospital yoyoyo\n");
         printf("Are you Admin or Customer ? Press a if you are admin and press c if you are Customer");
-        char custmer_or_admin;
+        char customer_or_admin;
         char option;
-        scanf(" %c",&custmer_or_admin);
+        scanf(" %c",&customer_or_admin);
         getchar();
-        custmer_or_admin=tolower(custmer_or_admin);
-        if(custmer_or_admin=='a')
+        customer_or_admin=tolower(customer_or_admin);
+        if(customer_or_admin=='a')
         {
              if(verifyadmin(adminpass)){
                //something to do with admin
@@ -671,6 +733,121 @@ int main(){
              }*/
         }
 }
+}
+else if(customer_or_admin=='c'){
+    //something to do with customer
+    printf("Welcome how can we help you?\n");
+    printf("Press 1 to view all doctors\n");
+    printf("Press 2 to search for a doctor\n");
+    printf("Press 3 to appoint a doctor\n");
+    printf("Press 4 to find your appointment\n");
+    printf("Press 5 to delete your appointment\n");
+    FILE *doctortxt,*appointxt;
+    char *apointment_filename="appointment_info.txt";
+    char *doctor_filename="doctorinfo.txt";
+
+    int doctor_size=read_file_with_initializing(doctortxt,doctor_filename,doctors);
+    int appoint_size=read_file_with_initializing(appointxt,apointment_filename,appoint);
+    scanf(" %c",&option);
+    if(option=='1'){
+        //view all doctors
+        print_doctor(doctors,doctor_size);
+    }
+    if(option=='2'){
+        //search for a doctor
+        char new_option;
+        printf("Press 1 to search by serial number\n");
+        printf("Press 2 to search by name\n");
+        
+        printf("Press 4 to exit\n");
+        scanf(" %c",&new_option);
+        if(new_option=='1'){
+            //search by serial number
+            printf("Enter the serial number of the doctor\n");
+            int serial_number;
+            scanf("%d",&serial_number);
+          // remove_newline(serial_number);
+           print_single_doctor(doctors,serial_number-1);
+        }
+        if(new_option=='2'){
+            //search by name
+            printf("Enter the name or sub name of the doctor\n");
+            char name[40];
+            clear_input_buffer();
+            fgets(name, sizeof(name),stdin);
+            remove_newline(name);
+            search_doctor_by_name(doctors,name,doctor_size);
+        }
+    }
+    if(option=='3'){
+        char new_option;
+        printf("Press 1 to appoint by serial number\n");
+        printf("Press 2 to appoint by name\n");
+        scanf(" %c",&new_option);
+        
+
+        //appoint a doctor
+        
+        //search by doctor name
+        if(new_option=='2'){
+            //search by name
+        printf("Enter the name or sub name of the doctor\n");
+            char name[40];
+            clear_input_buffer();
+            fgets(name, sizeof(name),stdin);
+            remove_newline(name);
+            search_doctor_by_name(doctors,name,doctor_size);
+        }
+        if(new_option=='1'||new_option=='2'){
+        printf("Enter the serial number of the doctor\n");
+        int serial_number;
+        scanf("%d",&serial_number);
+        appoint_doctor_by_serialnumber(doctors,serial_number,appoint,&appoint_size);
+        copy_write_file(appointxt,apointment_filename,appoint,appoint_size);
+        }
+    }
+    if(option=='4'||option=='5'){
+        int new_option;
+        if(appoint_size==0){
+            printf("You have no appointment\n");
+            exit(0);
+        }
+        char printoption[3][10]={"search","delete"};
+        printf("Press 1 to %s by serial number\n",printoption[option-'4']);
+        printf("Press 2 to %s by name\n",printoption[option-'4']);
+      //  printf("Press 2 to search by name\n");
+        scanf(" %d",&new_option);
+        if(new_option==2){
+            //search by name
+            printf("Enter the name or sub name of the patient\n");
+            char name[40];
+            clear_input_buffer();
+            fgets(name, sizeof(name),stdin);
+            remove_newline(name);
+            search_appointment_by_name(appoint,name,appoint_size);
+        }
+        if(new_option==1||new_option==2){
+            //search by serial number
+            printf("Enter the serial number of the appointment\n");
+            int serial_number;
+            scanf("%d",&serial_number);
+          // remove_newline(serial_number);
+           print_single_appointment(appoint,serial_number-1);
+              if(option=='5'){
+                delete_specific_index_array(appoint,serial_number-1,&appoint_size,5);
+                print_appointment(appoint,appoint_size);
+                copy_write_file(appointxt,apointment_filename,appoint,appoint_size);
+              }
+              
+        }
+
+
+    }
+    else{
+        exit(0);
+    }
+
+
 }
 }
 
