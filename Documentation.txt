@@ -1,0 +1,10 @@
+First Main code : Hospital Management System.c
+4 ta File : 
+1.Admin passkey.txt (Stores Passkey )
+2.Patieninfo.txt -> Admin
+Edit ->Admin
+3.Doctorinfo.txt ->  User ,Admin
+Edit-> Admin
+4.Generalinfo.txt -> User, Admin
+Edit -> Admin
+5.Appointment.txt -> User(individual),Admin(total)
