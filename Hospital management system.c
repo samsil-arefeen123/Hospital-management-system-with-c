@@ -197,8 +197,8 @@ int verifyadmin(FILE *passkeytxt)
         printf("Enter your admin password ");
         fgets(password, 20, stdin);
         remove_newline(password);
-        printf("%s and %s \n", actualusername, username);
-        printf("%s and %s \n", actualpassword, password);
+      //  printf("%s and %s \n", actualusername, username);
+      //  printf("%s and %s \n", actualpassword, password);
         if (strcmp(username, actualusername) == 0 && strcmp(password, actualpassword) == 0)
         {
             printf("Welcome Admin\n");
