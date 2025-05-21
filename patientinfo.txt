@@ -1,8 +1,50 @@
-1-Samsil Arefeen-204-Dr. Some name-Some diseases-Adovas-3 days
-2-sami-203-Khalam-pogi-vital23m-23day
-3-Samsam-203-Dr am-Tonsil-panther20-34day
-4-Shamim-293-Dr.Nasum Ahmed-cholerra-vitamax202-15day
-5-sam-203-dr ahsan mahmud-chollera-visco350-3day
-6-idkert-2031-dr ahmed-direa-cosmic32-5day
-7-Ashim-502-Riyad-Diebaties-Adovas-3day
-8-samy-23234-Dr Khadija Akter-Typhoid-clorpium202 20mg-3 day
+1-John Doe-204-Dr. Alice Smith-Cardiovascular Disease-Adovas-3 days
+2-Jane Smith-203-Dr. Bob Johnson-Migraine-Vitalex-5 days
+3-Michael Brown-205-Dr. Carol Lee-Fracture-Panadol-14 days
+4-Emily Davis-206-Dr. David Kim-Flu-Tamiflu-7 days
+5-Chris Wilson-207-Dr. Emma Brown-Eczema-Clobetasol-10 days
+6-Amy Clark-208-Dr. Frank White-Ulcer-Colimax-8 days
+7-Ryan Lewis-209-Dr. Grace Green-Diabetes-Insulin-30 days
+8-Sophia Walker-210-Dr. Henry Black-Leukemia-Imatinib-60 days
+9-Daniel Hall-211-Dr. Ivy Young-Glaucoma-Latanoprost-20 days
+10-Megan Allen-212-Dr. Jack King-Depression-Sertraline-21 days
+11-Ben Turner-213-Dr. Karen Scott-Arthritis-Methotrexate-28 days
+12-Lily Adams-214-Dr. Liam Adams-Kidney Stone-Tamsulosin-14 days
+13-Jacob Evans-215-Dr. Mia Clark-Allergy-Loratadine-7 days
+14-Nora Perez-216-Dr. Noah Lewis-Asthma-Salbutamol-10 days
+15-Oliver Carter-217-Dr. Olivia Walker-Nephritis-Prednisone-15 days
+16-Ella Foster-218-Dr. Paul Hall-Anemia-Ferrous Sulfate-30 days
+17-William Graham-219-Dr. Quinn Allen-Bronchitis-Azithromycin-7 days
+18-Hannah Howard-220-Dr. Ruby Wright-Tuberculosis-Rifampicin-60 days
+19-James Kelly-221-Dr. Sam Harris-Hypertension-Amlodipine-21 days
+20-Chloe Lee-222-Dr. Tina Martin-Pregnancy-Prenatalvit-90 days
+21-Mason Moore-223-Dr. Uma Nelson-Sinusitis-Amoxicillin-10 days
+22-Ava Nash-224-Dr. Victor Perez-Anesthesia Recovery-Paracetamol-3 days
+23-Ethan Owen-225-Dr. Wendy Turner-Genetic Disorder-EnzymeX-60 days
+24-Madison Price-226-Dr. Xavier Baker-Infection-Ciprofloxacin-7 days
+25-Logan Quinn-227-Dr. Yara Carter-Appendicitis-Augmentin-14 days
+26-Abigail Reed-228-Dr. Zack Evans-Burns-Silver Sulfadiazine-10 days
+27-Joshua Scott-229-Dr. Amy Foster-Stroke-Aspirin-30 days
+28-Samantha Stone-230-Dr. Ben Graham-Foot Pain-Ibuprofen-5 days
+29-Matthew Taylor-231-Dr. Chloe Howard-Sports Injury-Diclofenac-14 days
+30-Elizabeth Underwood-232-Dr. Dylan James-Thyroid Disorder-Levothyroxine-30 days
+31-Joseph Vaughn-233-Dr. Ella Kelly-X-ray Review-No Drug-1 day
+32-Mia West-234-Dr. Finn Lee-Work Injury-Naproxen-7 days
+33-Aiden Wright-235-Dr. Gina Moore-Emergency Trauma-Morphine-2 days
+34-Sarah Young-236-Dr. Hugo Nash-High Cholesterol-Atorvastatin-21 days
+35-David Zane-237-Dr. Isla Owen-Fever-Acetaminophen-3 days
+36-Skylar Abbott-238-Dr. Jake Price-Preventive Checkup-No Drug-1 day
+37-Jack Bell-239-Dr. Kate Quinn-Drug Reaction-Antihistamine-5 days
+38-Layla Cook-240-Dr. Leo Reed-Forensic Exam-No Drug-1 day
+39-Luke Dean-241-Dr. Maya Stone-Poisoning-Antidote-7 days
+40-Zoe Hall-242-Dr. Nate Taylor-Genetic Counseling-No Drug-1 day
+41-Henry King-243-Dr. Opal Underwood-Transplant Followup-Cyclosporine-30 days
+42-Grace Martin-244-Dr. Pete Vaughn-Vascular Surgery Recovery-Heparin-14 days
+43-Levi Nelson-245-Dr. Quinn West-Heart Surgery Recovery-Beta Blocker-21 days
+44-Aria Owens-246-Dr. Rose Xu-Neonatal Care-Vitamin D-10 days
+45-Jayden Price-247-Dr. Sean Young-ICU Monitoring-No Drug-2 days
+46-Lillian Quinn-248-Dr. Tara Zane-Palliative Care-Morphine-15 days
+47-Oscar Reed-249-Dr. Uma Abbott-Occupational Therapy-No Drug-7 days
+48-Violet Scott-250-Dr. Vince Bell-Respiratory Therapy-Salbutamol-10 days
+49-Sebastian Turner-251-Dr. Wendy Cook-Psychological Evaluation-No Drug-1 day
+50-Penelope Vaughn-252-Dr. Xavier Dean-Child Psychiatry-Risperidone-21 days

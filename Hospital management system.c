@@ -75,14 +75,14 @@ void clear_input_buffer()
     {
     } // Clear the input buffer
 }
-
 void remove_newline(char *str)
 {
     str[strcspn(str, "\n")] = '\0'; // Remove trailing newline if present
 }
-
+/*created by */
 void print_single_patient(char patients[][10][40], int index)
-{
+{   // this function is used to print the patient info
+    // it takes the index of the patient and prints the info
     printf("Serial number: %s\n", patients[index][0]);
     printf("Name: %s\n", patients[index][1]);
     printf("Cabin room: %s\n", patients[index][2]);
@@ -104,6 +104,8 @@ void print_single_doctor(char doctors[][10][40], int index)
 
 void print_single_appointment(char appoint[][10][40], int index)
 {
+    // this function is used to print the appointment info
+    // it takes the index of the appointment and prints the info
     printf("Serial number: %s\n", appoint[index][0]);
     printf("Patient name: %s\n", appoint[index][1]);
     printf("Doctor name: %s\n", appoint[index][2]);
@@ -113,6 +115,8 @@ void print_single_appointment(char appoint[][10][40], int index)
 
 void print_hospital_info(char hospital[][10][40])
 {
+    // this function is used to print the hospital info
+    // it takes the index of the hospital and prints the info
     printf("Hospital name: %s\n", hospital[0][0]);
     printf("Hospital address: %s\n", hospital[0][1]);
     printf("Hospital owner: %s\n", hospital[0][2]);
@@ -127,6 +131,8 @@ void print_hospital_info(char hospital[][10][40])
 
 void print_patient(char patients[][10][40], int count)
 {
+    // this function is used to print the patient info
+    // it takes total size of the content and prints all the patients using loop calling the single patient function
     for (int i = 0; i < count; i++)
     {
         print_single_patient(patients, i);
@@ -136,6 +142,8 @@ void print_patient(char patients[][10][40], int count)
 
 void print_doctor(char doctors[][10][40], int count)
 {
+    // this function is used to print the doctor info
+    // it takes total size of the content and prints all the doctors using loop calling the single doctor function
     for (int i = 0; i < count; i++)
     {
         print_single_doctor(doctors, i);
@@ -155,9 +163,10 @@ void print_appointment(char appoint[][10][40], int count)
 int split(char *str, char arr[][40], char *splitby)
 {
     // strtok is used to split the string into tokens based on the delimiter
-    // in this case the delimiter is "-"
+    //For storing file the delimiter is "-" and for spliting days it is ","
     // token takes the string each time it is called and then it changes to next string
     // at the end it returns the value size of the array
+
     char *token;
     token = strtok(str, splitby);
     int i = 0;
@@ -169,7 +178,7 @@ int split(char *str, char arr[][40], char *splitby)
     }
     return i;
 }
-
+/*created by */
 int verifyadmin(FILE *passkeytxt)
 {
     // actualpassword and actualusername are the paword and username that are stored in the file
@@ -238,7 +247,7 @@ int verifyadmin(FILE *passkeytxt)
         }
     }
 }
-
+/*created by */
 int read_file_with_initializing(FILE *fp, char *filename, char arr[][10][40])
 {
     char str[200];
@@ -262,7 +271,7 @@ int read_file_with_initializing(FILE *fp, char *filename, char arr[][10][40])
 }
 
 int get_total_contentby_filename(char *filename)
-{
+{   
     int total_content;
     if (strcmp(filename, "patientinfo.txt") == 0)
     {
@@ -291,6 +300,7 @@ int get_total_contentby_filename(char *filename)
 
 int search_patient_by_name(char arr[][10][40], char *name, int total_size)
 {
+    // this function is used to search for a patient by name/subname
     int store_serial[100];
     int count = 0;
     printf("Possible patients");
@@ -309,6 +319,7 @@ int search_patient_by_name(char arr[][10][40], char *name, int total_size)
 
 int search_doctor_by_name_or_expertise(char arr[][10][40], char *name, int total_size, int option)
 { // 1 for name and 2 for expertise
+    // this function is used to search for a doctor by name/subname And also by expertise
     int store_serial[100];
     int count = 0;
 
@@ -335,6 +346,7 @@ int search_doctor_by_name_or_expertise(char arr[][10][40], char *name, int total
 
 int search_appointment_by_name(char arr[][10][40], char *name, int total_size)
 {
+    // this function is used to search for a appointment by name/subname
     int store_serial[100];
     int count = 0;
     printf("Possible appointments");
@@ -425,6 +437,7 @@ int update_array_content(char arr[][10][40], int index, int content_size)
 
 int add_any_specific_index(char arr[][10][40], int index, int content_size)
 {
+    // this function is used to add a new patient/doctor/hospital
     char str[40];
     sprintf(arr[index][0], "%d", index + 1);
     int j;
@@ -460,24 +473,15 @@ int add_any_specific_index(char arr[][10][40], int index, int content_size)
 
 int append_file_update_array(char arr[][10][40], int *total_size, char *filename)
 {
+    // this function is used to append a new patient/doctor/hospital.Append means adding a new patient/doctor/hospital
     int content_size = get_total_contentby_filename(filename);
     add_any_specific_index(arr, *total_size, content_size);
     *total_size = *total_size + 1;
     return 0;
 }
-
-int update_file_add_newinfo_onindex_array(char arr[][10][40], int *total_size)
-{
-    return 0;
-}
-
-int update_file_change_info_onindex_array(char arr[][10][40], int *total_size)
-{
-    return 0;
-}
-
 int copy_write_file(FILE *fp, char *filename, char arr[][10][40], int total_size)
 {
+    // this function is used to copy the array to the file
     int total_content;
     total_content = get_total_contentby_filename(filename);
 
@@ -508,6 +512,7 @@ int copy_write_file(FILE *fp, char *filename, char arr[][10][40], int total_size
 
 int delete_specific_index_array(char arr[][10][40], int index, int *total_size, int content_size)
 {
+    // this function is used to delete a specific patient/doctor/hospital
     for (int i = index; i < *total_size - 1; i++)
     {
         for (int j = 1; j < content_size; j++)
@@ -521,6 +526,7 @@ int delete_specific_index_array(char arr[][10][40], int index, int *total_size, 
 
 int appoint_doctor_by_serialnumber(char doctorarr[][10][40], int doctor_serial_number, char appointarr[][10][40], int *appoint_size)
 {
+    // this function is used to appoint a doctor by serial number
     char patient_name[40];
     printf("Enter the name of the patient\n");
     clear_input_buffer();
