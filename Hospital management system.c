@@ -6,49 +6,54 @@
 char *patient_print_string[7] = {"", "name", "cabin room", "doctor", "disease", "drug name", "recovery time"};
 char *doctor_print_string[6] = {"", "name", "expertise", "checking day", "contact info", "visit fee"};
 char *hospital_print_string[10] = {"hospital name", "hospital address", "hospital owner", "max patient capacity", "total doctor", "total employee", "hospital phone number", "hospital email", "hospital website", "hospital year of establishment"};
-
+/*
+For showing how the data is stored in 3d array comparing with struct
 struct hospitalinfo
 {
-    char hospital_name[40];
-    char hospital_address[40];
-    char hospital_owner[40];
-    char max_patient_capacity[40];
-    char total_doctor[40];
-    char total_employee[40];
-    char hospital_phone_number[40];
-    char hospital_email[40];
-    char hospital_website[40];
-    char hospital_year_of_establishment[40];
+total content = 10
+index 0    char hospital_name[40];
+index 1    char hospital_address[40];
+index 2    char hospital_owner[40];
+index 3    char max_patient_capacity[40];
+index 4    char total_doctor[40];
+index 5    char total_employee[40];
+index 6    char hospital_phone_number[40];
+index 7    char hospital_email[40];
+index 8    char hospital_website[40];
+index 9    char hospital_year_of_establishment[40];
 };
 
 struct patient
 {
-    char serial_number[20];
-    char name[20];
-    char cabinroom[20];
-    char doctor[20];
-    char disease[20];
-    char drugname[20];
-    char recovery_time[20];
+total content = 7
+index 0    char serial_number[20];
+index 1    char name[20];
+index 2    char cabinroom[20];
+index 3    char doctor[20];
+index 4    char disease[20];
+index 5    char drugname[20];
+index 6    char recovery_time[20];
 };
 struct appointment
 {
-    char serial_number[20];
-    char patient_name[20];
-    char doctor_name[20];
-    char expertise[20];
-    char appointment_day[20];
+total content = 5
+index 0    char serial_number[20];
+index 1    char patient_name[20];
+index 2    char doctor_name[20];
+index 3    char expertise[20];
+index 4    char appointment_day[20];
 };
 struct doctor
 {
-    char serial_number[20];
-    char name[20];
-    char expertise[20];
-    char checking_day[20];
-    char contactinfo[20];
-    char visit_fee[20];
+total content = 6
+index 0    char serial_number[20];
+index 1    char name[20];
+index 2    char expertise[20];
+index 3    char checking_day[20];
+index 4    char contactinfo[20];
+index 5    char visit_fee[20];
 };
-
+*/
 char *str_to_lower(char str[])
 {
     // this function is used to convert the string to lower case
