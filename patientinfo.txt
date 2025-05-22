@@ -28,7 +28,7 @@
 28-Samantha Stone-230-Dr. Ben Graham-Foot Pain-Ibuprofen-5 days
 29-Matthew Taylor-231-Dr. Chloe Howard-Sports Injury-Diclofenac-14 days
 30-Elizabeth Underwood-232-Dr. Dylan James-Thyroid Disorder-Levothyroxine-30 days
-31-Joseph Vaughn-233-Dr. Ella Kelly-X-ray Review-No Drug-1 day
+31-Joseph Vaughn-233-Dr. Ella Kelly-X-ray Review-No Drug
 32-Mia West-234-Dr. Finn Lee-Work Injury-Naproxen-7 days
 33-Aiden Wright-235-Dr. Gina Moore-Emergency Trauma-Morphine-2 days
 34-Sarah Young-236-Dr. Hugo Nash-High Cholesterol-Atorvastatin-21 days
@@ -48,3 +48,8 @@
 48-Violet Scott-250-Dr. Vince Bell-Respiratory Therapy-Salbutamol-10 days
 49-Sebastian Turner-251-Dr. Wendy Cook-Psychological Evaluation-No Drug-1 day
 50-Penelope Vaughn-252-Dr. Xavier Dean-Child Psychiatry-Risperidone-21 days
+51-Sadaf-123-Dr. Khaled Mahmud-Typhoid-Arp23 mm-23 days
+52-Samy-2003-Dr.Al shams-Typohoid-pompi23mm-23 day
+53-Samsil Arefeen-1234-sdsds-typhoid-mc23mm-23day
+54-sad-sds-sdad-fdf-gdf-sdsd
+55-hmmmmmmm-2002-doc-32phoid-23mmf-23 day

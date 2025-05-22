@@ -48,3 +48,4 @@
 48-Violet Scott-Dr. Vince Bell-Respiratory Therapist-Saturday
 49-Sebastian Turner-Dr. Wendy Cook-Clinical Psychologist-Thursday
 50-Penelope Vaughn-Dr. Xavier Dean-Child Psychiatrist-Friday
+51-same-Dr. David Kim-Pediatrician-Monday

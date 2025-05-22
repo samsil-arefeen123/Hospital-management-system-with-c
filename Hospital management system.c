@@ -53,7 +53,17 @@ index 3    char checking_day[20];
 index 4    char contactinfo[20];
 index 5    char visit_fee[20];
 };
+
 */
+void clear_screen()
+{
+#ifdef _WIN32
+    system("cls");
+#else
+    system("clear");
+#endif
+}
+
 char *str_to_lower(char str[])
 {
     // this function is used to convert the string to lower case
@@ -81,7 +91,7 @@ void remove_newline(char *str)
 }
 /*created by */
 void print_single_patient(char patients[][10][40], int index)
-{   // this function is used to print the patient info
+{ // this function is used to print the patient info
     // it takes the index of the patient and prints the info
     printf("Serial number: %s\n", patients[index][0]);
     printf("Name: %s\n", patients[index][1]);
@@ -163,7 +173,7 @@ void print_appointment(char appoint[][10][40], int count)
 int split(char *str, char arr[][40], char *splitby)
 {
     // strtok is used to split the string into tokens based on the delimiter
-    //For storing file the delimiter is "-" and for spliting days it is ","
+    // For storing file the delimiter is "-" and for spliting days it is ","
     // token takes the string each time it is called and then it changes to next string
     // at the end it returns the value size of the array
 
@@ -218,12 +228,10 @@ int verifyadmin(FILE *passkeytxt)
         printf("Enter your admin password ");
         fgets(password, 20, stdin);
         remove_newline(password);
-        printf("%s and %s \n", actualusername, username);
-        printf("%s and %s \n", actualpassword, password);
+        //      printf("%s and %s \n", actualusername, username);
+        //        printf("%s and %s \n", actualpassword, password);
         if (strcmp(username, actualusername) == 0 && strcmp(password, actualpassword) == 0)
         {
-            printf("Welcome Admin\n");
-            printf("You have successfully logged in\n");
             free(actualusername);
             free(actualpassword);
             free(username);
@@ -234,6 +242,7 @@ int verifyadmin(FILE *passkeytxt)
         }
         else
         {
+            clear_screen();
             printf("Invalid username or password\n");
             printf("Try again\n");
             counter++;
@@ -271,7 +280,7 @@ int read_file_with_initializing(FILE *fp, char *filename, char arr[][10][40])
 }
 
 int get_total_contentby_filename(char *filename)
-{   
+{
     int total_content;
     if (strcmp(filename, "patientinfo.txt") == 0)
     {
@@ -298,36 +307,69 @@ int get_total_contentby_filename(char *filename)
     return total_content;
 }
 
-int search_patient_by_name(char arr[][10][40], char *name, int total_size)
+int search_patient_by_name(char arr[][10][40], int total_size)
 {
     // this function is used to search for a patient by name/subname
-    int store_serial[100];
+    clear_screen();
+    printf("Enter the name or sub name of the patient\n");
+    char name[40];
+    clear_input_buffer();
+    fgets(name, sizeof(name), stdin);
+    remove_newline(name);
+    // int store_serial[100];
     int count = 0;
-    printf("Possible patients");
+    // printf("Possible patients");
     for (int i = 0; i < total_size; i++)
     {
         if (strstr(str_to_lower(arr[i][1]), str_to_lower(name)))
         {
-            store_serial[count] = i + 1;
+            // store_serial[count] = i + 1;
             count++;
+            if (count == 1)
+            {
+                printf("Possible patients\n");
+            }
             print_single_patient(arr, i);
             printf("\n");
         }
     }
-    return 0;
+    if (count == 0)
+    {
+        printf("No patient found\n");
+        printf("Do you want to try again or exit?\n");
+        printf("Press y for yes and any other key to exit\n");
+        char op;
+        scanf(" %c", &op);
+        if (op == 'y')
+        {
+            search_patient_by_name(arr, total_size);
+        }
+        else
+        {
+            printf("Exiting...\n");
+            exit(0);
+        }
+    }
+    return count;
 }
 
-int search_doctor_by_name_or_expertise(char arr[][10][40], char *name, int total_size, int option)
+int search_doctor_by_name_or_expertise(char arr[][10][40], int total_size, int option)
 { // 1 for name and 2 for expertise
     // this function is used to search for a doctor by name/subname And also by expertise
-    int store_serial[100];
+    // int store_serial[100];
+    clear_screen();
     int count = 0;
-
+    char *p[2] = {"name", "expertise"};
+    printf("Enter the name or sub name of the doctor by %s\n", p[option - 1]);
+    char name[40];
+    clear_input_buffer();
+    fgets(name, sizeof(name), stdin);
+    remove_newline(name);
     for (int i = 0; i < total_size; i++)
     {
         if (strstr(str_to_lower(arr[i][option]), str_to_lower(name)))
         {
-            store_serial[count] = i + 1;
+            // store_serial[count] = i + 1;
             count++;
             if (count == 1)
             {
@@ -340,24 +382,63 @@ int search_doctor_by_name_or_expertise(char arr[][10][40], char *name, int total
     if (count == 0)
     {
         printf("No doctor found\n");
+        printf("Do you want to try again or exit?\n");
+        printf("Press y for yes and any other key to exit\n");
+        char op;
+        scanf(" %c", &op);
+        if (op == 'y')
+        {
+            search_doctor_by_name_or_expertise(arr, total_size, option);
+        }
+        else
+        {
+            printf("Exiting...\n");
+            exit(0);
+        }
     }
-    return 0;
+    return count;
 }
 
-int search_appointment_by_name(char arr[][10][40], char *name, int total_size)
+int search_appointment_by_name(char arr[][10][40], int total_size)
 {
     // this function is used to search for a appointment by name/subname
+    clear_screen();
     int store_serial[100];
     int count = 0;
-    printf("Possible appointments");
+    printf("Enter the name or sub name of the patient\n");
+    char name[40];
+    clear_input_buffer();
+    fgets(name, sizeof(name), stdin);
+    remove_newline(name);
+    //  printf("Possible appointments");
     for (int i = 0; i < total_size; i++)
     {
         if (strstr(str_to_lower(arr[i][1]), str_to_lower(name)))
         {
-            store_serial[count] = i + 1;
             count++;
+            if (count == 1)
+            {
+                printf("Possible appointments\n");
+            }
             print_single_appointment(arr, i);
             printf("\n");
+        }
+    }
+    if (count == 0)
+    {
+        printf("No appointment found\n");
+        printf("Do you want to try again or exit?\n");
+        printf("Press y for yes and any other key to exit\n");
+        char op;
+        scanf(" %c", &op);
+        if (op == 'y')
+        {
+            search_appointment_by_name(arr, total_size);
+        }
+        else
+        {
+            printf("Exiting...\n");
+            exit(0);
         }
     }
     return count;
@@ -558,6 +639,7 @@ int appoint_doctor_by_serialnumber(char doctorarr[][10][40], int doctor_serial_n
 
 int main()
 {
+    clear_screen();
     char arr[20][40];
     int count = 0; // this is the count of the patients
     char patients[100][10][40];
@@ -584,9 +666,14 @@ int main()
 
     if (customer_or_admin == 'a')
     {
+
         FILE *adminpass = fopen("admin passkey.txt", "r");
         if (verifyadmin(adminpass))
         {
+            clear_screen();
+            printf("Welcome Admin\n");
+            printf("You have successfully logged in\n");
+
             // something to do with admin
             printf("What do you want to do?\n");
             printf("Press p for if related patient info\n");
@@ -597,6 +684,7 @@ int main()
 
             if (option == 'p')
             {
+                clear_screen();
                 // something to do with patient
                 FILE *patienttxt;
                 char *patient_filename = "patientinfo.txt";
@@ -611,15 +699,20 @@ int main()
                 int patient_size = read_file_with_initializing(patienttxt, patient_filename, patients);
 
                 scanf(" %c", &option);
+                clear_screen();
                 if (option == '1')
                 {
                     // add a new patient
+
                     while (1)
                     {
+                        clear_screen();
+                        printf("Adding a new patient\n");
                         clear_input_buffer();
                         append_file_update_array(patients, &patient_size, patient_filename);
-                        print_patient(patients, patient_size);
-                        printf("%d\n", patient_size);
+                        print_single_patient(patients, patient_size - 1);
+                        // print_patient(patients, patient_size);
+                        // printf("%d\n", patient_size);
                         copy_write_file(patienttxt, patient_filename, patients, patient_size);
                         printf("Do you want to add another patient? Press y for yes and any other key to exit \n");
                         char add_option;
@@ -642,6 +735,7 @@ int main()
                     // search for a patient
                     while (1)
                     {
+                        clear_screen();
                         if (option == '4')
                         {
                             printf("To update a patient you need to search for the patient first\n");
@@ -680,12 +774,8 @@ int main()
                         if (new_option == '2')
                         {
                             // search by name
-                            printf("Enter the name or sub name of the patient\n");
-                            char name[40];
-                            clear_input_buffer();
-                            fgets(name, sizeof(name), stdin);
-                            remove_newline(name);
-                            search_patient_by_name(patients, name, patient_size);
+
+                            search_patient_by_name(patients, patient_size);
 
                             if (option == '4' || option == '5')
                             {
@@ -721,7 +811,9 @@ int main()
             }
             else if (option == 'd')
             {
+
                 // something to do with doctor
+                clear_screen();
                 FILE *doctortxt;
                 char *doctor_filename = "doctorinfo.txt";
                 printf("Here are serveral options for you\n");
@@ -734,10 +826,15 @@ int main()
                 int doctor_size = read_file_with_initializing(doctortxt, doctor_filename, doctors);
 
                 scanf(" %c", &option);
+                clear_screen();
                 if (option == '1')
                 {
+                    // add a new doctor
+
                     while (1)
                     {
+                        clear_screen();
+                        printf("Adding a new doctor\n");
                         // add a new doctor
                         clear_input_buffer();
                         append_file_update_array(doctors, &doctor_size, doctor_filename);
@@ -765,6 +862,7 @@ int main()
                     // search for a doctor
                     while (1)
                     {
+                        clear_screen();
                         if (option == '4')
                         {
                             printf("To update a doctor you need to search for the doctor first\n");
@@ -803,13 +901,7 @@ int main()
                         if (new_option == '2')
                         {
                             // search by name
-                            printf("Enter the name or sub name of the doctor\n");
-                            char name[40];
-                            clear_input_buffer();
-                            fgets(name, sizeof(name), stdin);
-                            remove_newline(name);
-                            search_doctor_by_name_or_expertise(doctors, name, doctor_size, 1);
-
+                            search_doctor_by_name_or_expertise(doctors, doctor_size, 1);
                             if (option == '4' || option == '5')
                             {
                                 // update a doctor
@@ -844,6 +936,7 @@ int main()
             }
             else if (option == 'h')
             {
+                clear_screen();
                 // something to do with hospital
                 /* FILE *hospitaltxt;
                  char *hospital_filename="hospitalinfo.txt";*/
@@ -854,6 +947,7 @@ int main()
                 printf("Press 4 to exit\n");
 
                 scanf(" %c", &option);
+                clear_screen();
 
                 if (option == '1')
                 {
@@ -885,6 +979,7 @@ int main()
             }
             else if (option == 'a')
             {
+                clear_screen();
                 // view all appointment info
                 FILE *appointtxt;
                 char *apointment_filename = "appointment_info.txt";
@@ -919,7 +1014,7 @@ int main()
         int doctor_size = read_file_with_initializing(doctortxt, doctor_filename, doctors);
         int appoint_size = read_file_with_initializing(appointxt, apointment_filename, appoint);
         scanf(" %c", &option);
-
+        clear_screen();
         if (option == '1')
         {
             // view all doctors
@@ -928,51 +1023,47 @@ int main()
 
         if (option == '2')
         {
-            // search for a doctor
-            char new_option;
-            printf("Press 1 to search by serial number\n");
-            printf("Press 2 to search by name\n");
-            printf("Press 3 to search by expertise\n");
-            printf("Press 4 to exit\n");
-            scanf(" %c", &new_option);
+            while (1)
+            {
+                clear_screen();
+                // search for a doctor
+                char new_option;
+                printf("Press 1 to search by serial number\n");
+                printf("Press 2 to search by name\n");
+                printf("Press 3 to search by expertise\n");
+                printf("Press 4 to exit\n");
+                scanf(" %c", &new_option);
 
-            if (new_option == '1')
-            {
-                // search by serial number
-                printf("Enter the serial number of the doctor\n");
-                int serial_number;
-                scanf("%d", &serial_number);
-                print_single_doctor(doctors, serial_number - 1);
-            }
+                if (new_option == '1')
+                {
+                    // search by serial number
+                    printf("Enter the serial number of the doctor\n");
+                    int serial_number;
+                    scanf("%d", &serial_number);
+                    print_single_doctor(doctors, serial_number - 1);
+                }
 
-            if (new_option == '2')
-            {
-                // search by name
-                printf("Enter the name or sub name of the doctor\n");
-                char name[40];
-                clear_input_buffer();
-                fgets(name, sizeof(name), stdin);
-                remove_newline(name);
-                search_doctor_by_name_or_expertise(doctors, name, doctor_size, 1);
-            }
-            if (new_option == '3')
-            {
-                // search by expertise
-                printf("Enter the expertise of the doctor\n");
-                char name[40];
-                clear_input_buffer();
-                fgets(name, sizeof(name), stdin);
-                remove_newline(name);
-                search_doctor_by_name_or_expertise(doctors, name, doctor_size, 2);
+                if (new_option == '2' || new_option == '3')
+                {
+                    // search by name || expertise
+
+                    search_doctor_by_name_or_expertise(doctors, doctor_size, new_option - '1' + 1);
+                }
+                printf("Do you want to search for another doctor? Press y for yes and any other key to exit \n");
+                char add_option;
+                scanf(" %c", &add_option);
+                if (add_option != 'y')
+                {
+                    break;
+                }
             }
         }
-
         if (option == '3')
         {
             char new_option;
             printf("Press 1 to appoint doctor by serial number\n");
             printf("Press 2 to appoint doctor by name\n");
-            printf("Press 3 to search doctor by expertise\n");
+            printf("Press 3 to appoint doctor based on  expertise\n");
             scanf(" %c", &new_option);
 
             // appoint a doctor
@@ -981,12 +1072,8 @@ int main()
             if (new_option == '2')
             {
                 // search by name
-                printf("Enter the name or sub name of the doctor\n");
-                char name[40];
-                clear_input_buffer();
-                fgets(name, sizeof(name), stdin);
-                remove_newline(name);
-                search_doctor_by_name_or_expertise(doctors, name, doctor_size, 1);
+
+                search_doctor_by_name_or_expertise(doctors, doctor_size, 1);
             }
             else if (new_option == '3')
             {
@@ -996,7 +1083,7 @@ int main()
                 clear_input_buffer();
                 fgets(name, sizeof(name), stdin);
                 remove_newline(name);
-                search_doctor_by_name_or_expertise(doctors, name, doctor_size, 2);
+                search_doctor_by_name_or_expertise(doctors, doctor_size, 2);
             }
 
             if (new_option == '1' || new_option == '2' || new_option == '3')
@@ -1026,12 +1113,8 @@ int main()
             if (new_option == 2)
             {
                 // search by name
-                printf("Enter the name or sub name of the patient\n");
-                char name[40];
-                clear_input_buffer();
-                fgets(name, sizeof(name), stdin);
-                remove_newline(name);
-                search_appointment_by_name(appoint, name, appoint_size);
+
+                search_appointment_by_name(appoint, appoint_size);
             }
 
             if (new_option == 1 || new_option == 2)
