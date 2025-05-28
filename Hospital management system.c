@@ -56,8 +56,13 @@ index 5    char visit_fee[20];
 };
 
 */
+// Created by samsil arefeen
+
 void clear_screen()
 {
+    // this function is used to clear the screen
+    // it uses system("cls") for windows and system("clear") for linux
+    // it is used to clear the screen before showing the menu again
 #ifdef _WIN32
     system("cls");
 #else
@@ -176,7 +181,6 @@ int verifyadmin(FILE *passkeytxt)
         }
     }
 }
-/*created by */
 int get_total_contentby_filename(char *filename)
 {
     int total_content;
@@ -256,7 +260,8 @@ int copy_write_file(FILE *fp, char *filename, char arr[][10][40], int total_size
     fclose(fp);
     return 1;
 }
-// created by nirjona
+// ended by samsil arefeen
+//  created by nirjona
 void print_single_patient(char patients[][10][40], int index)
 { // this function is used to print the patient info
     // it takes the index of the patient and prints the info
@@ -640,6 +645,7 @@ int appoint_doctor_by_serialnumber(char doctorarr[][10][40], int doctor_serial_n
     return 0;
 }
 // done by uzma
+// created by samsil arefeen
 int main()
 {
     clear_screen();
@@ -1161,3 +1167,4 @@ int main()
 
     return 0;
 }
+// end by samsil arefeen
