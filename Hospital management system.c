@@ -90,87 +90,6 @@ void remove_newline(char *str)
 {
     str[strcspn(str, "\n")] = '\0'; // Remove trailing newline if present
 }
-// created by nirjona
-void print_single_patient(char patients[][10][40], int index)
-{ // this function is used to print the patient info
-    // it takes the index of the patient and prints the info
-    printf("Serial number: %s\n", patients[index][0]);
-    printf("Name: %s\n", patients[index][1]);
-    printf("Cabin room: %s\n", patients[index][2]);
-    printf("Doctor: %s\n", patients[index][3]);
-    printf("Disease: %s\n", patients[index][4]);
-    printf("Drug name: %s\n", patients[index][5]);
-    printf("Recovery time: %s\n", patients[index][6]);
-}
-
-void print_single_doctor(char doctors[][10][40], int index)
-{
-    printf("Serial number: %s\n", doctors[index][0]);
-    printf("Name: %s\n", doctors[index][1]);
-    printf("Expertise: %s\n", doctors[index][2]);
-    printf("Checking day: %s\n", doctors[index][3]);
-    printf("Contact info: %s\n", doctors[index][4]);
-    printf("Visit fee: %s\n", doctors[index][5]);
-}
-
-void print_single_appointment(char appoint[][10][40], int index)
-{
-    // this function is used to print the appointment info
-    // it takes the index of the appointment and prints the info
-    printf("Serial number: %s\n", appoint[index][0]);
-    printf("Patient name: %s\n", appoint[index][1]);
-    printf("Doctor name: %s\n", appoint[index][2]);
-    printf("Expertise %s\n", appoint[index][3]);
-    printf("Appointment day: %s\n", appoint[index][4]);
-}
-
-void print_hospital_info(char hospital[][10][40])
-{
-    // this function is used to print the hospital info
-    // it takes the index of the hospital and prints the info
-    printf("Hospital name: %s\n", hospital[0][0]);
-    printf("Hospital address: %s\n", hospital[0][1]);
-    printf("Hospital owner: %s\n", hospital[0][2]);
-    printf("Max patient capacity: %s\n", hospital[0][3]);
-    printf("Total doctor: %s\n", hospital[0][4]);
-    printf("Total employee: %s\n", hospital[0][5]);
-    printf("Hospital phone number: %s\n", hospital[0][6]);
-    printf("Hospital email: %s\n", hospital[0][7]);
-    printf("Hospital website: %s\n", hospital[0][8]);
-    printf("Hospital year of establishment: %s\n", hospital[0][9]);
-}
-
-void print_patient(char patients[][10][40], int count)
-{
-    // this function is used to print the patient info
-    // it takes total size of the content and prints all the patients using loop calling the single patient function
-    for (int i = 0; i < count; i++)
-    {
-        print_single_patient(patients, i);
-        printf("\n");
-    }
-}
-
-void print_doctor(char doctors[][10][40], int count)
-{
-    // this function is used to print the doctor info
-    // it takes total size of the content and prints all the doctors using loop calling the single doctor function
-    for (int i = 0; i < count; i++)
-    {
-        print_single_doctor(doctors, i);
-        printf("\n");
-    }
-}
-
-void print_appointment(char appoint[][10][40], int count)
-{
-    for (int i = 0; i < count; i++)
-    {
-        print_single_appointment(appoint, i);
-        printf("\n");
-    }
-}
-// ended by nirjona
 int split(char *str, char arr[][40], char *splitby)
 {
     // strtok is used to split the string into tokens based on the delimiter
@@ -258,28 +177,6 @@ int verifyadmin(FILE *passkeytxt)
     }
 }
 /*created by */
-int read_file_with_initializing(FILE *fp, char *filename, char arr[][10][40])
-{
-    char str[200];
-    // this function is used to read the file and initialize the array with the values from the file
-    // it returns the count of the patients/doctors but if if the file is not found it returns 0 too since theres no info about the patients anyways
-    fp = fopen(filename, "r");
-    int count = 0;
-    if (fp == NULL)
-    {
-        printf("File not found\n");
-        return 0;
-    }
-    while (fgets(str, sizeof(str), fp) != NULL)
-    {
-        remove_newline(str);
-        split(str, arr[count], "-");
-        count++;
-    }
-    fclose(fp);
-    return count;
-}
-
 int get_total_contentby_filename(char *filename)
 {
     int total_content;
@@ -307,6 +204,140 @@ int get_total_contentby_filename(char *filename)
     }
     return total_content;
 }
+
+int read_file_with_initializing(FILE *fp, char *filename, char arr[][10][40])
+{
+    char str[200];
+    // this function is used to read the file and initialize the array with the values from the file
+    // it returns the count of the patients/doctors but if if the file is not found it returns 0 too since theres no info about the patients anyways
+    fp = fopen(filename, "r");
+    int count = 0;
+    if (fp == NULL)
+    {
+        printf("File not found\n");
+        return 0;
+    }
+    while (fgets(str, sizeof(str), fp) != NULL)
+    {
+        remove_newline(str);
+        split(str, arr[count], "-");
+        count++;
+    }
+    fclose(fp);
+    return count;
+}
+int copy_write_file(FILE *fp, char *filename, char arr[][10][40], int total_size)
+{
+    // this function is used to copy the array to the file
+    int total_content;
+    total_content = get_total_contentby_filename(filename);
+
+    fp = fopen(filename, "w");
+    if (fp == NULL || total_content == -1)
+    {
+        printf("File not found\n");
+        return -1;
+    }
+    for (int i = 0; i < total_size; i++)
+    {
+        for (int j = 0; j < total_content; j++)
+        {
+            fprintf(fp, "%s", arr[i][j]);
+            if (j != total_content - 1)
+            {
+                fprintf(fp, "-");
+            }
+        }
+        if (i != total_size - 1)
+        {
+            fprintf(fp, "\n");
+        }
+    }
+    fclose(fp);
+    return 1;
+}
+// created by nirjona
+void print_single_patient(char patients[][10][40], int index)
+{ // this function is used to print the patient info
+    // it takes the index of the patient and prints the info
+    printf("Serial number: %s\n", patients[index][0]);
+    printf("Name: %s\n", patients[index][1]);
+    printf("Cabin room: %s\n", patients[index][2]);
+    printf("Doctor: %s\n", patients[index][3]);
+    printf("Disease: %s\n", patients[index][4]);
+    printf("Drug name: %s\n", patients[index][5]);
+    printf("Recovery time: %s\n", patients[index][6]);
+}
+
+void print_single_doctor(char doctors[][10][40], int index)
+{
+    printf("Serial number: %s\n", doctors[index][0]);
+    printf("Name: %s\n", doctors[index][1]);
+    printf("Expertise: %s\n", doctors[index][2]);
+    printf("Checking day: %s\n", doctors[index][3]);
+    printf("Contact info: %s\n", doctors[index][4]);
+    printf("Visit fee: %s\n", doctors[index][5]);
+}
+
+void print_single_appointment(char appoint[][10][40], int index)
+{
+    // this function is used to print the appointment info
+    // it takes the index of the appointment and prints the info
+    printf("Serial number: %s\n", appoint[index][0]);
+    printf("Patient name: %s\n", appoint[index][1]);
+    printf("Doctor name: %s\n", appoint[index][2]);
+    printf("Expertise %s\n", appoint[index][3]);
+    printf("Appointment day: %s\n", appoint[index][4]);
+}
+
+void print_hospital_info(char hospital[][10][40])
+{
+    // this function is used to print the hospital info
+    // it takes the index of the hospital and prints the info
+    printf("Hospital name: %s\n", hospital[0][0]);
+    printf("Hospital address: %s\n", hospital[0][1]);
+    printf("Hospital owner: %s\n", hospital[0][2]);
+    printf("Max patient capacity: %s\n", hospital[0][3]);
+    printf("Total doctor: %s\n", hospital[0][4]);
+    printf("Total employee: %s\n", hospital[0][5]);
+    printf("Hospital phone number: %s\n", hospital[0][6]);
+    printf("Hospital email: %s\n", hospital[0][7]);
+    printf("Hospital website: %s\n", hospital[0][8]);
+    printf("Hospital year of establishment: %s\n", hospital[0][9]);
+}
+
+void print_patient(char patients[][10][40], int count)
+{
+    // this function is used to print the patient info
+    // it takes total size of the content and prints all the patients using loop calling the single patient function
+    for (int i = 0; i < count; i++)
+    {
+        print_single_patient(patients, i);
+        printf("\n");
+    }
+}
+
+void print_doctor(char doctors[][10][40], int count)
+{
+    // this function is used to print the doctor info
+    // it takes total size of the content and prints all the doctors using loop calling the single doctor function
+    for (int i = 0; i < count; i++)
+    {
+        print_single_doctor(doctors, i);
+        printf("\n");
+    }
+}
+
+void print_appointment(char appoint[][10][40], int count)
+{
+    for (int i = 0; i < count; i++)
+    {
+        print_single_appointment(appoint, i);
+        printf("\n");
+    }
+}
+// ended by nirjona
+
 // created by abyazz
 int search_patient_by_name(char arr[][10][40], int total_size)
 {
@@ -355,7 +386,7 @@ int search_patient_by_name(char arr[][10][40], int total_size)
 }
 
 int search_doctor_by_name_or_expertise(char arr[][10][40], int total_size, int option)
-{ // 1 for name and 2 for expertise
+{ // option 1 for name and option 2 for expertise
     // this function is used to search for a doctor by name/subname And also by expertise
     // int store_serial[100];
     clear_screen();
@@ -561,36 +592,6 @@ int append_file_update_array(char arr[][10][40], int *total_size, char *filename
     add_any_specific_index(arr, *total_size, content_size);
     *total_size = *total_size + 1;
     return 0;
-}
-int copy_write_file(FILE *fp, char *filename, char arr[][10][40], int total_size)
-{
-    // this function is used to copy the array to the file
-    int total_content;
-    total_content = get_total_contentby_filename(filename);
-
-    fp = fopen(filename, "w");
-    if (fp == NULL || total_content == -1)
-    {
-        printf("File not found\n");
-        return -1;
-    }
-    for (int i = 0; i < total_size; i++)
-    {
-        for (int j = 0; j < total_content; j++)
-        {
-            fprintf(fp, "%s", arr[i][j]);
-            if (j != total_content - 1)
-            {
-                fprintf(fp, "-");
-            }
-        }
-        if (i != total_size - 1)
-        {
-            fprintf(fp, "\n");
-        }
-    }
-    fclose(fp);
-    return 1;
 }
 
 int delete_specific_index_array(char arr[][10][40], int index, int *total_size, int content_size)
