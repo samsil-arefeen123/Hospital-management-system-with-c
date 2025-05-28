@@ -34,6 +34,7 @@ index 4    char disease[20];
 index 5    char drugname[20];
 index 6    char recovery_time[20];
 };
+
 struct appointment
 {
 total content = 5
@@ -89,7 +90,7 @@ void remove_newline(char *str)
 {
     str[strcspn(str, "\n")] = '\0'; // Remove trailing newline if present
 }
-/*created by */
+// created by nirjona
 void print_single_patient(char patients[][10][40], int index)
 { // this function is used to print the patient info
     // it takes the index of the patient and prints the info
@@ -169,7 +170,7 @@ void print_appointment(char appoint[][10][40], int count)
         printf("\n");
     }
 }
-
+// ended by nirjona
 int split(char *str, char arr[][40], char *splitby)
 {
     // strtok is used to split the string into tokens based on the delimiter
@@ -306,7 +307,7 @@ int get_total_contentby_filename(char *filename)
     }
     return total_content;
 }
-
+// created by abyazz
 int search_patient_by_name(char arr[][10][40], int total_size)
 {
     // this function is used to search for a patient by name/subname
@@ -443,7 +444,8 @@ int search_appointment_by_name(char arr[][10][40], int total_size)
     }
     return count;
 }
-
+// end by abyazz
+// Created by uzma
 int update_array_content(char arr[][10][40], int index, int content_size)
 {
     printf("What do you want to update?\n");
@@ -636,12 +638,13 @@ int appoint_doctor_by_serialnumber(char doctorarr[][10][40], int doctor_serial_n
     printf("You have successfully appointed the doctor\n");
     return 0;
 }
-
+// done by uzma
 int main()
 {
     clear_screen();
     char arr[20][40];
     int count = 0; // this is the count of the patients
+
     char patients[100][10][40];
     char doctors[100][10][40];
     char appoint[100][10][40];
@@ -1047,7 +1050,7 @@ int main()
                 {
                     // search by name || expertise
 
-                    search_doctor_by_name_or_expertise(doctors, doctor_size, new_option - '1' + 1);
+                    search_doctor_by_name_or_expertise(doctors, doctor_size, new_option - '1');
                 }
                 printf("Do you want to search for another doctor? Press y for yes and any other key to exit \n");
                 char add_option;
